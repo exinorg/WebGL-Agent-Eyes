@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">WebGL Agent Eyes logo</title>
+  <desc id="desc">A cyan eye containing a three-dimensional cube, framed by amber screenshot corners.</desc>
+  <defs>
+    <linearGradient id="eye" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#53D7E8"/>
+      <stop offset="1" stop-color="#A5F3F0"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="480" height="480" rx="104" fill="#0B1B2D"/>
+  <g fill="none" stroke="#FFB35C" stroke-width="10" stroke-linecap="square">
+    <path d="M66 148V82H132"/>
+    <path d="M380 82H446V148"/>
+    <path d="M66 364V430H132"/>
+    <path d="M380 430H446V364"/>
+  </g>
+  <path d="M70 258C128 167 194 142 256 142C318 142 384 167 442 258C384 349 318 374 256 374C194 374 128 349 70 258Z"
+        fill="#102B3B" stroke="url(#eye)" stroke-width="11" stroke-linejoin="round"/>
+  <circle cx="256" cy="258" r="91" fill="#081426" stroke="#53D7E8" stroke-opacity="0.5" stroke-width="4"/>
+  <g stroke="#D9FAFF" stroke-width="4" stroke-linejoin="round">
+    <path d="M256 190L322 228L256 266L190 228Z" fill="#73E5EB"/>
+    <path d="M190 228L256 266V340L190 302Z" fill="#199DB8"/>
+    <path d="M322 228V302L256 340V266Z" fill="#FFB35C"/>
+  </g>
+  <path d="M211 213L256 188L301 213" fill="none" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="129" cy="205" r="8" fill="#EAF7FF"/>
+  <circle cx="151" cy="184" r="5" fill="#EAF7FF" opacity="0.7"/>
+</svg>

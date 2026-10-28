@@ -1,4 +1,6 @@
-# WebGL Test Suite — let an AI agent really SEE your WebGL/Three.js games
+![WebGL Agent Eyes — real browser testing for any AI agent](assets/social-preview.png)
+
+# WebGL Agent Eyes — let an AI agent really SEE your WebGL/Three.js games
 
 Run real browser tests of WebGL games on a **remote runner** (GitHub Actions) or a **PC on your LAN**, collect **real screenshots**, and let an AI agent look at them. No local models required: the AI stays on API/cloud, only the browser moves to a machine where it works.
 
