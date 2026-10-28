@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "webgl-eyes": {
+      "command": "node",
+      "args": ["/percorso/WebGL-Agent-Eyes/mcp-server/server.js"]
+    },
+    "playwright-pc": {
+      "type": "remote",
+      "url": "http://IP-DEL-PC-IN-LAN:8931/mcp"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "nome": "demo-scena",
+  "nota": "Scenario minimo: prova che il canale (browser + screenshot) funziona sulla scena Three.js di prova.",
+  "passi": [
+    { "azione": "attendi", "ms": 2000 },
+    { "azione": "screenshot", "nome": "scena" },
+    { "azione": "assert-visibile", "selettore": "canvas" }
+  ]
+}

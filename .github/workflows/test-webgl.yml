@@ -1,0 +1,81 @@
+name: test-webgl
+# Runner remoto AUTORIZZATO (GitHub Actions): qui Chromium funziona davvero.
+# Il rendering è SwiftShader su CPU (i runner non hanno GPU): dichiarato nel report,
+# NON equivale alle prestazioni della GPU del giocatore.
+on:
+  workflow_dispatch:
+    inputs:
+      game_repo:
+        description: "Repo del gioco (owner/repo) — default: la scena demo di questo repo"
+        required: true
+        default: "exinorg/WebGL-Agent-Eyes"
+      game_ref:
+        description: "Branch/tag del gioco"
+        required: false
+        default: "main"
+      game_dir:
+        description: "Cartella o file html del gioco nel repo"
+        required: false
+        default: "demo/scena.html"
+      scenario:
+        description: "Scenario JSON (nel repo tester)"
+        required: false
+        default: "scenari/esempio.json"
+      scenario_inline:
+        description: "Alternativa: contenuto JSON dello scenario (per giochi privati, senza file nel repo)"
+        required: false
+        default: ""
+      viewport:
+        description: "360x640 | 540x960 | 1280x720"
+        required: false
+        default: "540x960"
+      spettro:
+        description: "Cattura Spector.js (true/false)"
+        required: false
+        default: "false"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tester
+        uses: actions/checkout@v4
+
+      - name: "Checkout gioco (repo privato: serve il secret GH_GAME_TOKEN, PAT read-only)"
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.game_repo }}
+          ref: ${{ inputs.game_ref }}
+          path: gioco
+          token: ${{ secrets.GH_GAME_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Playwright + Chromium (Linux reale x64, niente PRoot)
+        run: |
+          npm i playwright
+          npx playwright install --with-deps chromium
+
+      - name: Pillow (analisi pixel screenshot)
+        run: pip install pillow
+
+      - name: Test WebGL — scenario + screenshot reali
+        run: |
+          EXTRA=""
+          if [ "${{ inputs.spettro }}" = "true" ]; then EXTRA="--spettro"; fi
+          SCEN="${{ inputs.scenario }}"
+          cat > /tmp/scenario-inline.json <<'SCENEOF'
+          ${{ inputs.scenario_inline }}
+          SCENEOF
+          if [ -n "$(cat /tmp/scenario-inline.json)" ]; then SCEN=/tmp/scenario-inline.json; fi
+          node scripts/testa-ci.js "gioco/${{ inputs.game_dir }}" --vp "${{ inputs.viewport }}" --scenario "$SCEN" $EXTRA
+
+      - name: Carica screenshot, log e report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-webgl-${{ inputs.viewport }}
+          path: shots-ci/
+          retention-days: 30
