@@ -25,6 +25,10 @@ on:
         description: "Alternativa: contenuto JSON dello scenario (per giochi privati, senza file nel repo)"
         required: false
         default: ""
+      avvia_cmd:
+        description: "Comando shell opzionale da eseguire in gioco/ (es. avviare un server mock)"
+        required: false
+        default: ""
       viewport:
         description: "360x640 | 540x960 | 1280x720"
         required: false
@@ -48,6 +52,14 @@ jobs:
           ref: ${{ inputs.game_ref }}
           path: gioco
           token: ${{ secrets.GH_GAME_TOKEN }}
+
+      - name: "Avvia comandi extra del gioco (es. mock socket.io)"
+        if: ${{ inputs.avvia_cmd != '' }}
+        run: |
+          cd gioco
+          nohup bash -lc "${{ inputs.avvia_cmd }}" > avvia.log 2>&1 &
+          sleep 3
+          tail -5 avvia.log || true
 
       - uses: actions/setup-node@v4
         with:
